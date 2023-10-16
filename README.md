@@ -3,10 +3,11 @@
 =========================
 
 ### Project Overview
+This repository contains Jupyter notebooks, CSV files, and environment specifications related to a capstone project developed as part of the BrainStation Data Science bootcamp. 
 
-... 
-...
-...
+The project is a prediction tool to identify individuals with a higher risk of developing Diabetes or Pre-diabetes based on basic health indicators.
+
+
 
 ### Walkthrough Demo
 
@@ -61,15 +62,12 @@
     - Project license
 
 ### Dataset
-
-...
-...
-...
+Datasets created and used in this project can be found in the following Google drive:
+https://drive.google.com/drive/folders/1ANKR3U_tE03NW3TRwdM0kcI7-l4zCZ2K?usp=sharing 
 
 ### Credits & References
+The data used for this project is from the Behavioral Risk Factor Surveillance System (BRFSS) survey done by the Centers for Disease Control and Prevention. 
 
-...
-...
-...
+The specific dataset used was collected and made available online by Alex Teboul. This collected dataset can be found here: https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset/data?select=diabetes_binary_5050split_health_indicators_BRFSS2015.csv   
 
 --------

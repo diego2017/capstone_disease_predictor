@@ -1,5 +1,7 @@
 # don't upload data files
-*.csv
+# *.csv
+data/
+references/
 
 # Jupyter Notebook
 .ipynb_checkpoints
