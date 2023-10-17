@@ -1,0 +1,14 @@
+name: diego_capstone
+channels:
+  - defaults
+dependencies:
+  - pandas
+  - seaborn
+  - numpy
+  - python=3.8
+  - matplotlib
+  - jupyter
+  - jupyterlab
+  - scikit-learn=0.24.1
+  - plotly=4.12.0
+  - bokeh=2.2.3
