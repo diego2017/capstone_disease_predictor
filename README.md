@@ -35,7 +35,10 @@ The project is a prediction tool to identify individuals with a higher risk of d
     - joblib dump of final model / model object
 
 * `notebooks`
-    - contains all final notebooks involved in the project
+    - 01-data-loading-cleaning
+    - 02-eda
+    - 03-pre-processing
+    - 04-modelling
 
 * `reports`
     - contains final report which summarises the project
@@ -47,7 +50,10 @@ The project is a prediction tool to identify individuals with a higher risk of d
     - Contains the project source code (refactored from the notebooks)
 
 * `.gitignore`
-    - Part of Git, includes files and folders to be ignored by Git version control
+    - Part of Git, includes files and folders to be ignored by Git version control.
+        data/
+        references/
+        .ipynb_checkpoints
 
 * `capstine_env.yml`
     - Conda environment specification
