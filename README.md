@@ -3,9 +3,23 @@
 =========================
 
 ### Project Overview
-This repository contains Jupyter notebooks, CSV files, and environment specifications related to a capstone project developed as part of the BrainStation Data Science bootcamp. 
 
-The project is a prediction tool to identify individuals with a higher risk of developing Diabetes or Pre-diabetes based on basic health indicators.
+The project delivers a machine learning solution designed to predict the risk of individuals developing diabetes, using readily accessible health indicators.
+
+Diabetes has become into one of the most significant epidemics in human history, affecting an estimated 422 million people globally, including almost 5 million individuals in the UK. Furthermore, 1 million people in the UK living with diabetes remain undiagnosed. This machine learning solution empowers doctors to identify patients at elevated risk more efficiently, facilitating timely and appropriate interventions.
+
+The potential benefits of this machine learning solution are twofold, encompassing both health and financial aspects:
+- Enhanced life expectancy for patients with type 2 diabetes, contingent upon timely and proper treatment
+- Financial relief for governments, stemming from the ability to treat patients proactively and mitigate the risk of complications
+
+The target variable in this context categorizes participants as having diabetes, prediabetes, or neither.
+
+The dataset comprises 20 health indicators.
+
+This repository houses Jupyter notebooks, CSV files, and environmental specifications, all of which pertain to a capstone project developed during the BrainStation Data Science bootcamp.
+
+
+The task is a classification problem, addressed by using Logistic Regression and Random Forest.
 
 
 
