@@ -42,8 +42,7 @@ The task is a classification problem, addressed by using Logistic Regression and
 ...
 
 * `data` 
-    - contains link to copy of the dataset (stored in a publicly accessible Google Drive folder)
-    - saved copy of aggregated / processed data as long as those are not too large (> 10 MB)
+    - link to copy of the dataset: https://drive.google.com/drive/folders/1ANKR3U_tE03NW3TRwdM0kcI7-l4zCZ2K?usp=drive_link 
 
 * `model`
     - joblib dump of final model / model object
@@ -52,7 +51,12 @@ The task is a classification problem, addressed by using Logistic Regression and
     - 01-data-loading-cleaning
     - 02-eda
     - 03-pre-processing
-    - 04-modelling
+    - 04a-modelling_log_reg_os
+    - 04b-modelling_decision_tree_os
+    - 04c-modelling_log_reg_no-os copy
+    - 04d-modelling_decision_tree_no-os_no-pca
+    - 05-findings
+    
 
 * `reports`
     - contains final report which summarises the project
