@@ -1,129 +1,99 @@
-### App to show the demonstrate the model saved in a pkl file
+### App to use the model saved in a pkl file to make a prediction
 
 ### import libraries
 import pandas as pd
 import streamlit as st
-import joblib
+import pickle
 
-# basic function to write text on app
-st.write('Streamlit is an open-source app framework for Machine Learning and Data Science teams. For the docs, please click [here](https://docs.streamlit.io/en/stable/api.html). \
-    This is is just a very small window into its capabilities.')
 
 
 #######################################################################################################################################
-### LAUNCHING THE APP ON THE LOCAL MACHINE
+### To launch the app on your local machine, follow these steps:
 ### 1. Save your *.py file (the file and the dataset should be in the same folder)
-### 2. Open git bash (Windows) or Terminal (MAC) and navigate (cd) to the folder containing the *.py and *.csv files
-### 3. Execute... streamlit run <name_of_file.py>
+### 2. Open your terminal and navigate (cd) to the folder containing the *.py file
+### 3. Execute... streamlit run app.py
 ### 4. The app will launch in your browser. A 'Rerun' button will appear every time you SAVE an update in the *.py file
-
-
-
 #######################################################################################################################################
-### Create a title
 
-#Let's write a title to be displayed in the app
-st.title("The Best App Ever")
 
-## You can also use markdown syntax using st.write("#...") 
-st.write("### App for investigating NYC bikes")
+# Title of the app
+st.title("Disease early monitoring system")
+
+## Subtitle
+st.write("### Diabetes predictor")
 
 ### To position text and color, you can use html syntax
-st.markdown("<h1 style='text-align: center; color: blue;'>The best ever morning kickoff</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center; color: blue;'>Patient: </h1>", unsafe_allow_html=True)
 
 
-#######################################################################################################################################
-### DATA LOADING
+def main():
+    st.title("Health Indicators Form")
 
-#defining function to load data
-def load_data(path, num_rows):
-    df = pd.read_csv(path, nrows=num_rows)
+    # Binary questions with selectbox for Yes/No
+    has_high_bp = st.selectbox("Has the patient been told by a medical professional that they have high blood pressure?", ["Yes", "No"], key='has_high_bp')
+    has_high_cholesterol = st.selectbox("Has the patient been told by a medical professional that they have high cholesterol?", ["Yes", "No"], key='has_high_cholesterol')
+    checked_cholesterol = st.selectbox("Has the patient's cholesterol been checked in the last 5 years?", ["Yes", "No"], key='checked_cholesterol')
+    is_smoker = st.selectbox("Has the patient smoked at least 100 cigarettes in their entire life?", ["Yes", "No"], key='is_smoker')
+    had_stroke = st.selectbox("Has the patient ever had a stroke?", ["Yes", "No"], key='had_stroke')
+    has_heart_disease = st.selectbox("Does the patient have Coronary Heart Disease or myocardial infarction?", ["Yes", "No"], key='has_heart_disease')
+    physical_activity = st.selectbox("Did the patient do any physical activity in the past 30 days?", ["Yes", "No"], key='physical_activity')
+    eats_fruits = st.selectbox("Does the patient consume at least 1 fruit per day?", ["Yes", "No"], key='eats_fruits')
+    eats_veggies = st.selectbox("Does the patient consume vegetables at least once per day?", ["Yes", "No"], key='eats_veggies')
+    heavy_drinker = st.selectbox("Does the patient consume 14 drinks or more per week (male) or 7 drinks or more per week (female)?", ["Yes", "No"], key='heavy_drinker')
+    has_healthcare_cov = st.selectbox("Does the patient have any kind of health care coverage?", ["Yes", "No"], key='has_healthcare_cov')
+    no_attention_bc_cost = st.selectbox("In the past 12 months, was the patient unable to see a doctor due to cost?", ["Yes", "No"], key='no_attention_bc_cost')
+    walking_difficulty = st.selectbox("Does the patient have serious difficulty walking or climbing stairs?", ["Yes", "No"], key='walking_difficulty')
+    is_male = st.selectbox("What gender was the patient assigned at birth?", ["Male", "Female"], key='is_male')
 
-    # Streamlit will only recognize 'latitude' or 'lat', 'longitude' or 'lon', as coordinates
-    # So we need to rename our columns "Start Station Latitude" and "Start Station Longitude" 
-    # so that streamlit will detect these columns for displaying maps later
-    df.rename(columns= {"Start Station Latitude": "lat", "Start Station Longitude": "lon"}, inplace= True)
+    # Non-binary questions
+    bmi = st.number_input("What is the patient's Body Mass Index (BMI)?", min_value=12.0, max_value=98.0, key='bmi')
+    general_health_score = st.selectbox("How would the patient describe their health level?", ["Excellent", "Very Good", "Good", "Fair", "Poor"], key='general_health_score')
+    mental_health_bad_days = st.slider("How many days of bad mental health has the patient had in the last 30 days", 1, 30, key='mental_health_bad_days')
+    physical_health_bad_days = st.slider("How many days of physical illness or injury has the patient had in the last 30 days", 1, 30, key='physical_health_bad_days')
+    age_groups = ['18 to 24', '25 to 29', '30 to 34', '35 to 39', '40 to 44', '45 to 49', '50 to 54', '55 to 59', '60 to 64', '65 to 69', '70 to 74', '75 to 79', '80+']
+    age = st.selectbox("What is the age of the patient?", age_groups, key='age')
+    education_level_groups = ['Never attended school or only kindergarten', 'Elementary education', 'Some high school', 'High school graduate', 'College 1 year to 3 years', 'College graduate and above']
+    education = st.selectbox("What is the highest level of education obtained by the patient?", education_level_groups, key='education')
+    income__level_groups = ['Less than $10,000', '$10,001 to $20,000', '$20,001 to $30,000', '$30,001 to $40,000', '$40,001 to $50,000', '$50,001 to $60,000', '$60,001 to $70,000', '$70,001 or more']
+    income = st.selectbox("What is the patient's income level?", income__level_groups, key='income')
 
-    # From our prior knowledge of this dataset suppose we also want to change the datatype of 'Start Time'
-    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    # Collecting and creating a pandas DataFrame when the user clicks Submit
+    if st.button("Submit"):
+        # Transform answers into values that can be processed by the model
+        user_data = {
+            "Has_high_bp": 1 if has_high_bp == "Yes" else 0,
+            "Has_high_cholesterol": 1 if has_high_cholesterol == "Yes" else 0,
+            "Checked_cholesterol": 1 if checked_cholesterol == "Yes" else 0,
+            "BMI": bmi,
+            "Is_smoker": 1 if is_smoker == "Yes" else 0,
+            "Had_stroke": 1 if had_stroke == "Yes" else 0,
+            "Has_heart_disease": 1 if has_heart_disease == "Yes" else 0,
+            "Physical_activity": 1 if physical_activity == "Yes" else 0,
+            "Eats_fruits": 1 if eats_fruits == "Yes" else 0,
+            "Eats_veggies": 1 if eats_veggies == "Yes" else 0,
+            "Heavy_drinker": 1 if heavy_drinker == "Yes" else 0,
+            "Has_healthcare_cov": 1 if has_healthcare_cov == "Yes" else 0,
+            "No_attention_bc_cost": 1 if no_attention_bc_cost == "Yes" else 0,
+            "General_health_score": general_health_score,
+            "Mental_health_bad_days": mental_health_bad_days,
+            "Physical_health_bad_days": physical_health_bad_days,
+            "Walking_difficulty": 1 if walking_difficulty == "Yes" else 0,
+            "Is_male": 1 if is_male == "Male" else 0,
+            "Age": age_groups.index(age) + 1,
+            "Education": education_levels.index(education) + 1,
+            "Income": income_groups.index(income) + 1
+        }
 
-    # Now we return the loaded data frame
-    return df
-
-# Load first 50K rows
-df = load_data("NYC_bikes_small.csv", 50000)
-
-# Display the dataframe in the app
-st.dataframe(df)
-#######################################################################################################################################
-### STATION MAP
-st.subheader("Map of data")
-
-st.map(df)
-
-#######################################################################################################################################
-### DATA ANALYSIS & VISUALIZATION
-# Now we want to display a bar chart of "Daily usage per hour" BUT we want to be able to filter to include either all trips or
-# only ROUND TRIPS.
-
-# To do this we create a sidebar with a checkbox first and then make the barchart
-
-###  Add filter on side bar after initial bar chart constructed
-st.sidebar.subheader("Usage filters")
-round_trip = st.sidebar.checkbox('Round trips only')
-
-# changes df based on what user has checked in the checkbox
-if round_trip:
-    df = df[df['Start Station ID'] == df['End Station ID']]
-
-
-# NOTE about checkboxes ---> When the user changes the checkbox, this .py file is rerun FROM TOP TO BOTTOM and the app rerendered.
-# This means changing the filter (which in the code below alters the varible df) any changes to df will only show in anything after
-# the if statement (in this example ONLY the barchart and not anything that used df above!)
-
-# Now adding the barchart section
-st.subheader("Daily usage per hour")
-
-counts = df["Start Time"].dt.hour.value_counts()
-st.bar_chart(counts)
-
-### The features we have used here are very basic. Most Python libraries can be imported as in Jupyter Notebook so the possibilities are vast.
-#### Visualizations can be rendered using matplotlib, seaborn, plotly etc.
-#### Models can be imported using *.pkl files (or similar) so predictions, classifications etc can be done within the app using previously optimized models
-#### Automating processes and handling real-time data
-
-
-#######################################################################################################################################
-### MODEL INFERENCE
-# Subheader:
-st.subheader("Play with the sentiment model")
-
-# Load the model using joblib
-model = joblib.load("sentiment_pipeline.pkl")
-
-# Set up input field with st.text_input()
-text = st.text_input("Enter Your Review Here", "Best Bike trip ever")
-
-# Use the model to predict sentiment & save to a variable called prediction NOTE the use of {} brackets around "text"
-prediction = model.predict({text})
-
-# based on prediction display something to user
-if prediction == 1:
-    st.write("## Postive Sentiment")
-else:
-    st.write("## Negative Sentiment")
+        # Create a pandas dataframe that can be processed by th emodel
+        user_data_df = pd.DataFrame([user_data])
+        st.write("Collected Data:")
+        st.dataframe(user_data_df)
 
 
 
-#######################################################################################################################################
-### Streamlit Advantages and Disadvantages
-    
-st.subheader("Streamlit Advantages and Disadvantages")
-st.write('**Advantages**')
-st.write(' - Easy, Intuitive, Pythonic')
-st.write(' - Free!')
-st.write(' - Requires no knowledge of front end languages')
-st.write('**Disadvantages**')
-st.write(' - Apps all look the same')
-st.write(' - Not very customizable')
-st.write(' - A little slow. Not good for MLOps, therefore not scalable')
+
+if __name__ == "__main__":
+    main()
+
+
+
