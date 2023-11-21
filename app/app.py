@@ -25,6 +25,9 @@ st.write("### Diabetes predictor")
 ### To position text and color, you can use html syntax
 st.markdown("<h1 style='text-align: center; color: blue;'>Patient: </h1>", unsafe_allow_html=True)
 
+# Load the model using pickle
+pickled_pipe = pickle.load(open('../model/log-reg-best-model.pkl', 'rb'))
+
 
 def main():
     st.title("Health Indicators Form")
@@ -47,15 +50,16 @@ def main():
 
     # Non-binary questions
     bmi = st.number_input("What is the patient's Body Mass Index (BMI)?", min_value=12.0, max_value=98.0, key='bmi')
-    general_health_score = st.selectbox("How would the patient describe their health level?", ["Excellent", "Very Good", "Good", "Fair", "Poor"], key='general_health_score')
+    general_health_score_level_groups = ["Excellent", "Very Good", "Good", "Fair", "Poor"]
+    general_health_score = st.selectbox("How would the patient describe their health level?", general_health_score_level_groups, key='general_health_score')
     mental_health_bad_days = st.slider("How many days of bad mental health has the patient had in the last 30 days", 1, 30, key='mental_health_bad_days')
     physical_health_bad_days = st.slider("How many days of physical illness or injury has the patient had in the last 30 days", 1, 30, key='physical_health_bad_days')
     age_groups = ['18 to 24', '25 to 29', '30 to 34', '35 to 39', '40 to 44', '45 to 49', '50 to 54', '55 to 59', '60 to 64', '65 to 69', '70 to 74', '75 to 79', '80+']
     age = st.selectbox("What is the age of the patient?", age_groups, key='age')
     education_level_groups = ['Never attended school or only kindergarten', 'Elementary education', 'Some high school', 'High school graduate', 'College 1 year to 3 years', 'College graduate and above']
     education = st.selectbox("What is the highest level of education obtained by the patient?", education_level_groups, key='education')
-    income__level_groups = ['Less than $10,000', '$10,001 to $20,000', '$20,001 to $30,000', '$30,001 to $40,000', '$40,001 to $50,000', '$50,001 to $60,000', '$60,001 to $70,000', '$70,001 or more']
-    income = st.selectbox("What is the patient's income level?", income__level_groups, key='income')
+    income_level_groups = ['Less than $10,000', '$10,001 to $20,000', '$20,001 to $30,000', '$30,001 to $40,000', '$40,001 to $50,000', '$50,001 to $60,000', '$60,001 to $70,000', '$70,001 or more']
+    income = st.selectbox("What is the patient's income level?", income_level_groups, key='income')
 
     # Collecting and creating a pandas DataFrame when the user clicks Submit
     if st.button("Submit"):
@@ -74,14 +78,14 @@ def main():
             "Heavy_drinker": 1 if heavy_drinker == "Yes" else 0,
             "Has_healthcare_cov": 1 if has_healthcare_cov == "Yes" else 0,
             "No_attention_bc_cost": 1 if no_attention_bc_cost == "Yes" else 0,
-            "General_health_score": general_health_score,
+            "General_health_score": general_health_score_level_groups.index(general_health_score) + 1,
             "Mental_health_bad_days": mental_health_bad_days,
-            "Physical_health_bad_days": physical_health_bad_days,
+            # "Physical_health_bad_days": physical_health_bad_days,  #This variable is excluded as it was deleted during pre-processing
             "Walking_difficulty": 1 if walking_difficulty == "Yes" else 0,
             "Is_male": 1 if is_male == "Male" else 0,
             "Age": age_groups.index(age) + 1,
-            "Education": education_levels.index(education) + 1,
-            "Income": income_groups.index(income) + 1
+            "Education": education_level_groups.index(education) + 1,
+            "Income": income_level_groups.index(income) + 1
         }
 
         # Create a pandas dataframe that can be processed by th emodel
@@ -89,7 +93,8 @@ def main():
         st.write("Collected Data:")
         st.dataframe(user_data_df)
 
-
+        proba_predicted = pickled_pipe.predict_proba(user_data_df)
+        st.write(proba_predicted)
 
 
 if __name__ == "__main__":
