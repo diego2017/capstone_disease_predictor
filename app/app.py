@@ -49,11 +49,11 @@ def main():
     is_male = st.selectbox("What gender was the patient assigned at birth?", ["Male", "Female"], key='is_male')
 
     # Non-binary questions
-    bmi = st.number_input("What is the patient's Body Mass Index (BMI)?", min_value=12.0, max_value=98.0, key='bmi')
+    bmi = st.number_input("What is the patient's Body Mass Index (BMI)?", min_value=10, max_value=90, step=1, key='bmi')
     general_health_score_level_groups = ["Excellent", "Very Good", "Good", "Fair", "Poor"]
     general_health_score = st.selectbox("How would the patient describe their health level?", general_health_score_level_groups, key='general_health_score')
-    mental_health_bad_days = st.slider("How many days of bad mental health has the patient had in the last 30 days", 1, 30, key='mental_health_bad_days')
-    physical_health_bad_days = st.slider("How many days of physical illness or injury has the patient had in the last 30 days", 1, 30, key='physical_health_bad_days')
+    mental_health_bad_days = st.slider("How many days of bad mental health has the patient had in the last 30 days", 0, 30, key='mental_health_bad_days')
+    physical_health_bad_days = st.slider("How many days of physical illness or injury has the patient had in the last 30 days", 0, 30, key='physical_health_bad_days')
     age_groups = ['18 to 24', '25 to 29', '30 to 34', '35 to 39', '40 to 44', '45 to 49', '50 to 54', '55 to 59', '60 to 64', '65 to 69', '70 to 74', '75 to 79', '80+']
     age = st.selectbox("What is the age of the patient?", age_groups, key='age')
     education_level_groups = ['Never attended school or only kindergarten', 'Elementary education', 'Some high school', 'High school graduate', 'College 1 year to 3 years', 'College graduate and above']
