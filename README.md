@@ -58,41 +58,32 @@ The following table provides an overview of all data features found in the origi
 
 
 
-### Walkthrough Demo
-
-...
-...
-...
-
 ### Project Flowchart
 
-...
-...
-...
+![Project Flowchart](./reports/figures/Flowchart.svg)
 
 ### Project Organization
-
-
 
 * `data` 
     - link to copy of the dataset: https://drive.google.com/drive/folders/1ANKR3U_tE03NW3TRwdM0kcI7-l4zCZ2K?usp=drive_link 
 
 * `model`
-    - joblib dump of final model / model object
+    - log-reg-best-model.pkl
+        pkl file can be found here: https://drive.google.com/file/d/1dM4OZFZm891TnLu8xyVW5-3SctGzES-J/view?usp=drive_link 
+
 
 * `notebooks`
     - 01-data-loading-cleaning
     - 02-eda
     - 03-pre-processing
-    - 04a-modelling_log_reg_os
-    - 04b-modelling_decision_tree_os
-    - 04c-modelling_log_reg_no-os copy
-    - 04d-modelling_decision_tree_no-os_no-pca
-    - 05-findings
+    - 04-log-reg-models
+    - 04.b-pkl-logreg-model-check
+    - 05-decision-tree
+    - 06-findings
     
 
 * `reports`
-    - contains final report which summarises the project
+    - contains presentations used to present the project updates and project flowchart
 
 * `references`
     - contains papers / tutorials used in the project
@@ -118,9 +109,12 @@ The following table provides an overview of all data features found in the origi
 * `LICENSE`
     - Project license
 
-### Dataset
-Datasets created and used in this project can be found in the following Google drive:
-https://drive.google.com/drive/folders/1ANKR3U_tE03NW3TRwdM0kcI7-l4zCZ2K?usp=sharing 
+
+### Walkthrough Demo
+
+...
+...
+...
 
 ### Credits & References
 The data used for this project is from the Behavioral Risk Factor Surveillance System (BRFSS) survey done by the Centers for Disease Control and Prevention. 
