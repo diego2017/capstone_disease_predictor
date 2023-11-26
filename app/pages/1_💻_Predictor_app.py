@@ -28,6 +28,7 @@ pickled_pipe = pickle.load(open('../model/log-reg-best-model.pkl', 'rb'))
 
 
 def main():
+    
     st.title("Health Indicators Form")
 
     # Binary questions with selectbox for Yes/No
