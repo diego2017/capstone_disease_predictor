@@ -16,6 +16,10 @@ The potential benefits of this machine learning solution are twofold, encompassi
 - Enhanced life expectancy for patients with type 2 diabetes, contingent upon timely and proper treatment
 - Financial relief for governments, stemming from the ability to treat patients proactively and mitigate the risk of complications
 
+### Walkthrough Demo
+
+A demo app that demonstrates the solution can be found inside the app directory. It can be used by running the 🏠_Home.py file 
+
 
 ### Dataset
 
@@ -82,14 +86,6 @@ The following table provides an overview of all data features found in the origi
     - 06-findings
     
 
-* `reports`
-    - contains presentations used to present the project updates and project flowchart
-
-* `references`
-    - contains papers / tutorials used in the project
-
-* `src`
-    - Contains the project source code (refactored from the notebooks)
 
 * `.gitignore`
     - Part of Git, includes files and folders to be ignored by Git version control.
@@ -109,12 +105,6 @@ The following table provides an overview of all data features found in the origi
 * `LICENSE`
     - Project license
 
-
-### Walkthrough Demo
-
-...
-...
-...
 
 ### Credits & References
 The data used for this project is from the Behavioral Risk Factor Surveillance System (BRFSS) survey done by the Centers for Disease Control and Prevention. 
